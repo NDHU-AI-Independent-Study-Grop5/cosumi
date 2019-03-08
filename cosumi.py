@@ -895,10 +895,13 @@ def tree_search(tree, n, owner_map, disp=False):
             if not job.ready():
                 continue
             # Yes! Queue them up for storing in the tree.
-            score, amaf_map, owner_map_one = job.get()
-            incoming.append((score, amaf_map, owner_map_one, nodes))
-            ongoing.remove((job, nodes))
-
+            
+            try:
+                score, amaf_map, owner_map_one = job.get()
+                incoming.append((score, amaf_map, owner_map_one, nodes))
+                ongoing.remove((job, nodes))
+            except:
+                pass
         # Early stop test
         best_wr = tree.best_move().winrate()
         if i > n*0.05 and best_wr > FASTPLAY5_THRES or i > n*0.2 and best_wr > FASTPLAY20_THRES:
@@ -1185,7 +1188,7 @@ def game_io(computer_black=False):
                     continue
 
                 # Find the next node in the game tree and proceed there
-                nodes = filter(lambda n: n.pos.last == c, tree.children)
+                nodes = list(filter(lambda n: n.pos.last == c, tree.children))
                 #print("@@%s\n"%nodes)
                 if not nodes:
                     print('Bad move (rule violation)')
