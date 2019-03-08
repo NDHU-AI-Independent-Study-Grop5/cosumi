@@ -23,9 +23,11 @@
 # It may be better to jump around a bit instead of just reading straight
 # from start to end.
 
+from __future__ import division
 from __future__ import print_function
 from collections import namedtuple
 from itertools import count
+from functools import reduce
 import math
 import multiprocessing
 from multiprocessing.pool import Pool
@@ -33,6 +35,7 @@ import random
 import re
 import sys
 import time
+
 
 
 # Given a board of size NxN (N=9, 19, ...), we represent the position
@@ -149,7 +152,7 @@ def board_put(board, c, p):
 def floodfill(board, c):
     """ replace continuous-color area starting at c with special color # """
     # This is called so much that a bytearray is worthwhile...
-    byteboard = bytearray(board)
+    byteboard = bytearray(str.encode(board))
     p = byteboard[c]
     byteboard[c] = ord('#')
     fringe = [c]
@@ -1169,7 +1172,7 @@ def game_io(computer_black=False):
     while True:
         if not (tree.pos.n == 0 and computer_black):
             print_pos(tree.pos, sys.stdout, owner_map)
-            sc = raw_input("Your move: ")
+            sc = input("Your move: ")
             try:
                 c = parse_coord(sc)
             except:
