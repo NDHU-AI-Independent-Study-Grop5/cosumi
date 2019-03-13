@@ -2,7 +2,12 @@
 
 ## todo list
 
-- make py3 env work
+- ~~make py3 env work~~
 - classify to separate file
 - self playing
-- add rule (like some place be invalid
+	- B/W win rate
+	- total play times
+- add rule 
+	- place be invalid
+		- add cmd
+		
